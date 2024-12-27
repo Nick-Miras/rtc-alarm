@@ -1,6 +1,7 @@
 #include "webInterface.h"
 
 const char* hostname = "alarm";
+char timeInput[4];
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
@@ -27,6 +28,7 @@ void handleInput() {
 
   String message = "Received inputs:<br>";
   if (input1.length()) message += "Input 1: " + input1 + "<br>";
+  // Modify global variable: strcpy(timeInput, message);
 
   server.send(200, "text/html", message);
 }
@@ -48,6 +50,8 @@ void setupWebServer() {
   Serial.println("HTTP server started");
 }
 
-void serverLoop() {
+char* serverLoop() {
+  strcpy(timeInput, "");
   server.handleClient();
+  return timeInput;
 }

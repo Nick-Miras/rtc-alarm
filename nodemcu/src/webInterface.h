@@ -8,7 +8,7 @@
 #include <ESP8266mDNS.h>
 
 inline ESP8266WebServer server(80);
-extern void serverLoop();
+extern char* serverLoop();
 extern void handleRoot();
 
 #endif //WEBINTERFACE_H

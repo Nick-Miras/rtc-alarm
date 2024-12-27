@@ -5,11 +5,6 @@
 const char* ssid = "NodeMCU";
 const char* password = "12345678";
 
-// /* Put IP Address details */
-// IPAddress local_ip(192,168,1,1);
-// IPAddress gateway(192,168,1,1);
-// IPAddress subnet(255,255,255,0);
-
 void setup() {
     Serial.begin(115200);
 
@@ -25,5 +20,6 @@ void setup() {
 }
 
 void loop() {
-    serverLoop();
+    const char* timeInput = serverLoop();
+    Serial.println(timeInput);  // send data using UART
 }
