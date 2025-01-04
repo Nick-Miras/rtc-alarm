@@ -8,7 +8,7 @@
 #define CE_PIN 2
 
 // Alarm time variables
-const int alarmHour = 10;    // Set alarm hour (24-hour format)
+const int alarmHour = 20;    // Set alarm hour (24-hour format)
 const int alarmMinute = 30;  // Set alarm minute
 
 ThreeWire myWire(IO_PIN, SCLK_PIN, CE_PIN); // IO, SCLK, CE
