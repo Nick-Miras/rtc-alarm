@@ -15,6 +15,11 @@ const char index_html[] PROGMEM = R"rawliteral(
     input1: <input type="text" name="input1">
     <input type="submit" value="Submit">
   </form>
+  <form action="/get/input2">
+    <label for="appt-time">Choose a time:</label>
+    <input type="time" id="appt-time" name="appt-time">
+    <input type="submit">
+  </form>
 </body>
 </html>
 )rawliteral";
@@ -24,12 +29,24 @@ void handleRoot() {
 }
 
 void handleInput() {
-  String input1 = server.arg("input1");
+  const String input = server.arg("input1");
 
   String message = "Received inputs:<br>";
-  if (input1.length()) message += "Input 1: " + input1 + "<br>";
-  // Modify global variable: strcpy(timeInput, message);
+  if (input.length()) message += "Input 1: " + input + "<br>";
 
+  const char* time = input.c_str();
+  informArduino(__DATE__, time);
+  server.send(200, "text/html", message);
+}
+
+void handleInputTime() { // TODO: Verify if this works
+  const String input = server.arg("input1"); // expected input: HH:MM
+
+  String message = "Received inputs:<br>";
+  if (input.length()) message += "Input 1: " + input + "<br>";
+
+  const char* time = (input + ":00").c_str();
+  informArduino(__DATE__, time);
   server.send(200, "text/html", message);
 }
 
@@ -45,6 +62,7 @@ void setupWebServer() {
 
   server.on("/", HTTP_GET, handleRoot);
   server.on("/get/input1", HTTP_GET, handleInput);
+  server.on("/get/input2", HTTP_GET, handleInputTime);
   server.begin();
 
   Serial.println("HTTP server started");

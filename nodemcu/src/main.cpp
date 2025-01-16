@@ -19,6 +19,13 @@ void setup() {
     Serial.println("IP Address: " + WiFi.localIP().toString());
 }
 
+void informArduino(const char* date, const char* time) {
+    // RtcDateTime compileDateTime(__DATE__, __TIME__); <== parameters required by the rtc-alarm
+    // sample input: date = "Dec 06 2009", time = "12:34:56"
+    Serial.println(date);
+    Serial.println(time);
+}
+
 void loop() {
     const char* timeInput = serverLoop();
     Serial.println(timeInput);  // send data using UART
