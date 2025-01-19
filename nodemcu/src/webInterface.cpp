@@ -1,5 +1,6 @@
 #include "webInterface.h"
 #include "index_html.h"
+#include "ESP8266mDNS.h"
 
 const char* hostname = "alarm";
 char timeInput[4];
@@ -10,9 +11,6 @@ void handleRoot() {
 
 void handleInputTime() {
   const String input = server.arg("appt-time"); // expected input: HH:MM
-  String message = "Received inputs:<br>";
-  if (input.length()) message += "Input: " + input + "<br>";
-
   const String timeWithSeconds = input + ":00";
   const char* time = timeWithSeconds.c_str();
   informArduino(__DATE__, time);
@@ -39,5 +37,6 @@ void setupWebServer() {
 }
 
 void serverLoop() {
+  MDNS.update();
   server.handleClient();
 }
