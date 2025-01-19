@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Form</title>
+  <style>
+    /* General styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+    }
+
+    /* Form styles */
+    form {
+      background: #ffffff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 90%; /* Ensure it fits smaller screens */
+      max-width: 400px; /* Limit the form size on larger screens */
+      display: flex; /* Flexbox for centering */
+      flex-direction: column; /* Stack elements vertically */
+      align-items: center; /* Center all elements inside the form */
+    }
+
+    label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #333;
+      text-align: center; /* Center text inside the label */
+      width: 100%; /* Ensure alignment with input fields */
+    }
+
+    input[type="time"] {
+      display: block;
+      width: 100%; /* Full width for mobile devices */
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%; /* Full width button */
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<form action="/get/input" method="GET">
+  <label for="appt-time">Choose a time:</label>
+  <input type="time" id="appt-time" name="appt-time" required>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>

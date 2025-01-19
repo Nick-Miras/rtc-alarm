@@ -8,8 +8,9 @@
 #include <ESP8266mDNS.h>
 
 inline ESP8266WebServer server(80);
-void informArduino(const char* date, const char* time)
-extern char* serverLoop();
+void informArduino(const char* date, const char* time);
+extern void serverLoop();
 extern void handleRoot();
+extern void setupWebServer();
 
 #endif //WEBINTERFACE_H

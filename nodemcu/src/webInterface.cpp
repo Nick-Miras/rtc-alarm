@@ -1,53 +1,22 @@
 #include "webInterface.h"
+#include "index_html.h"
 
 const char* hostname = "alarm";
 char timeInput[4];
-
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML>
-<html>
-<head>
-  <title>ESP Input Form</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <form action="/get/input1">
-    input1: <input type="text" name="input1">
-    <input type="submit" value="Submit">
-  </form>
-  <form action="/get/input2">
-    <label for="appt-time">Choose a time:</label>
-    <input type="time" id="appt-time" name="appt-time">
-    <input type="submit">
-  </form>
-</body>
-</html>
-)rawliteral";
 
 void handleRoot() {
   server.send(200, "text/html", index_html);
 }
 
-void handleInput() {
-  const String input = server.arg("input1");
-
+void handleInputTime() {
+  const String input = server.arg("appt-time"); // expected input: HH:MM
   String message = "Received inputs:<br>";
-  if (input.length()) message += "Input 1: " + input + "<br>";
+  if (input.length()) message += "Input: " + input + "<br>";
 
-  const char* time = input.c_str();
+  const String timeWithSeconds = input + ":00";
+  const char* time = timeWithSeconds.c_str();
   informArduino(__DATE__, time);
-  server.send(200, "text/html", message);
-}
-
-void handleInputTime() { // TODO: Verify if this works
-  const String input = server.arg("input1"); // expected input: HH:MM
-
-  String message = "Received inputs:<br>";
-  if (input.length()) message += "Input 1: " + input + "<br>";
-
-  const char* time = (input + ":00").c_str();
-  informArduino(__DATE__, time);
-  server.send(200, "text/html", message);
+  server.send(200, "text/html", success_html);
 }
 
 void setupWebServer() {
@@ -56,20 +25,19 @@ void setupWebServer() {
     Serial.println("Error starting mDNS");
     return;
   }
+  MDNS.addService("http", "tcp", 80);  // Advertise HTTP service
+
   Serial.print("mDNS responder started. Access it at: http://");
   Serial.print(hostname);
   Serial.println(".local");
 
   server.on("/", HTTP_GET, handleRoot);
-  server.on("/get/input1", HTTP_GET, handleInput);
-  server.on("/get/input2", HTTP_GET, handleInputTime);
+  server.on("/get/input", HTTP_GET, handleInputTime);
   server.begin();
 
   Serial.println("HTTP server started");
 }
 
-char* serverLoop() {
-  strcpy(timeInput, "");
+void serverLoop() {
   server.handleClient();
-  return timeInput;
 }
