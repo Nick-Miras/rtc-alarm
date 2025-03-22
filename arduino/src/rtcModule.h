@@ -11,8 +11,6 @@
 #define CE_PIN 2
 
 extern void rtcSetup();
-extern void rtcLoop(int alarmHour, int alarmMinute);
-
-void triggerAlarm();
+extern bool rtcLoop(const char* time);
 
 #endif //RTCMODULE_H

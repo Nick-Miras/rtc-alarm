@@ -6,11 +6,16 @@
 int alarmHour = 20;    // Set alarm hour (24-hour format)
 int alarmMinute = 30;  // Set alarm minute
 
-void triggerAlarm() {
+String receivedDate;
+String receivedTime;
+
+void triggerAlarm()
+{
+    Serial.println("Triggering Alarm");
     alarmInit();
 }
 
-void setup ()
+void setup()
 {
     Serial.begin(57600);
 
@@ -20,10 +25,14 @@ void setup ()
     rtcSetup();
 }
 
-void loop ()
+void loop()
 {
     if (Serial.available()) {
-        String receivedMessage = Serial.readString();  // Read message from NodeMCU
+        String receivedMessage = Serial.readString();  // TODO: read alarm specifications from NODEMCU
+        receivedDate = Serial.readStringUntil('\n');  // Read date
+        receivedTime = Serial.readStringUntil('\n');  // Read time
     }
-    rtcLoop(alarmHour, alarmMinute);
+    if (rtcLoop(receivedTime.c_str()) == true) {
+        triggerAlarm();
+    }
 }

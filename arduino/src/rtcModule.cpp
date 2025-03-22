@@ -71,13 +71,24 @@ void rtcSetup() {
     }
 }
 
-void rtcLoop(int alarmHour, int alarmMinute) {
-    RtcDateTime now = Rtc.GetDateTime();
-    // Check if current time matches the alarm
-    if (now.Hour() == alarmHour && now.Minute() == alarmMinute) {
-        triggerAlarm();
-        delay(60000); // Prevent retriggering for 1 minute
-    }
+int convertHourToUTCFromGMT8(int hour) {
+  int convertedHour = hour - 8;
+  if (convertedHour < 0) {
+    convertedHour += 24;
+  }
+  return convertedHour;
+}
 
-    delay(1000);
+bool rtcLoop(const char* time) {
+    RtcDateTime compiled = RtcDateTime(__DATE__, time);
+    int alarmHour = compiled.Hour();
+    int alarmMinute = compiled.Minute();
+
+    // Check if current time matches the alarm
+    RtcDateTime now = Rtc.GetDateTime();
+    if (now.Hour() == convertHourToUTCFromGMT8(alarmHour) && now.Minute() == alarmMinute) {
+        return true;
+    } else {
+        return false;
+    }
 }
