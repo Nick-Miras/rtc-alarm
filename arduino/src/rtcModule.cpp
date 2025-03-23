@@ -2,11 +2,11 @@
 // Created by Nick Anthony Miras on 1/16/25.
 //
 #include "rtcModule.h"
-#include <ThreeWire.h>
-#include <RtcDS1302.h>
+#include <Wire.h>
+#include <RtcDS1307.h>
 
-ThreeWire myWire(IO_PIN, SCLK_PIN, CE_PIN); // IO, SCLK, CE
-RtcDS1302<ThreeWire> Rtc(myWire);
+// ThreeWire myWire(IO_PIN, SCLK_PIN, CE_PIN); // IO, SCLK, CE
+RtcDS1307<TwoWire> Rtc(Wire);
 
 void printDateTime(const RtcDateTime& dt)
 {
@@ -41,12 +41,6 @@ void rtcSetup() {
 
         Serial.println("RTC lost confidence in the DateTime!");
         Rtc.SetDateTime(compiled);
-    }
-
-    if (Rtc.GetIsWriteProtected())
-    {
-        Serial.println("RTC was write protected, enabling writing now");
-        Rtc.SetIsWriteProtected(false);
     }
 
     if (!Rtc.GetIsRunning())
