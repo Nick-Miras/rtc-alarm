@@ -5,6 +5,7 @@
 #ifndef ALARM_H
 #define ALARM_H
 
-extern void alarmInit(void);
+extern void alarmInit();
+extern void testMotors();
 
 #endif //ALARM_H

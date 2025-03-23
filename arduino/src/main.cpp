@@ -23,6 +23,7 @@ void setup()
     Serial.print(__DATE__);
     Serial.println(__TIME__);
     rtcSetup();
+    testMotors();
 }
 
 void loop()

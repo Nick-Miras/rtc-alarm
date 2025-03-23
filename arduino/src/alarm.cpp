@@ -14,6 +14,11 @@ VibrationMotor myVibrationMotor(motorPin);
 /*
 Activates Buzzer and Vibration Motor - D3 for Buzzer, D4 for Vibration Motor
  */
-void alarmInit(void) {
+void testMotors() {
+    myVibrationMotor.on();
+    delay(5000);
+    myVibrationMotor.off();
+}
+void alarmInit() {
     myVibrationMotor.on();  // turns motor on
 }
